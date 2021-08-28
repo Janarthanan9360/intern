@@ -1,0 +1,36 @@
+package Intern;
+import java.sql.*;
+import java.util.Scanner;
+public class Internship {
+	public static void main(String[] args)throws ClassNotFoundException, SQLException {
+	try {	
+		Class.forName("Oracle.jdbc.driver.OracleDriver");
+		Connection c=DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","9360");
+   Statement s1=c.createStatement();
+   String sql="create table Movie(Name varchar2(50),Actor varchar2(30),Actress varchar2(30),Director Varchar2(30),Release number)";
+	s1.execute(sql);
+  System.out.println("Table created successfully!!");
+ s1.execute("insert into Movie values('Remo','sivakarthikeyan','Keerthi suresh','Bakiyaraj kannan',2016) ");
+  s1.execute("insert into Movie values('ms dhoni the untold story','Sushant Singh Rajput','disha patani','Kiara advani',2016) ");
+  s1.execute("insert into Movie values('Love mocktail','darling krishna','milana nagaraj',2020) ");
+  s1.execute("insert into Movie values('June','sarjano Khalid','rajisha Vijayan','jeevan baby Mathew'2019) ");
+  s1.execute("insert into Movie values('Geetha govindam','vijay devarkonda','rashmika madnana','parasuram',2018) ");
+  System.out.println("Inserted Successfully");
+   Scanner scr=new Scanner(System.in);
+   String s2=scr.next();
+  PreparedStatement pre=c.prepareCall("select Name from Movie where Actor=?");
+  pre.setString(1, s2);
+  ResultSet rs=pre.executeQuery();
+	while(rs.next())
+	{
+		System.out.println("Movie Name = "+rs.getString(1));
+	}
+	rs.close();
+	pre.close();
+}
+catch(Exception e)
+{
+	  System.out.println(e);
+}
+}
+}
